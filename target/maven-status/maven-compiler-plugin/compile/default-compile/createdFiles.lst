@@ -1,0 +1,7 @@
+org\registration\listener\HibernateCleanupListener.class
+org\registration\service\ComplaintService.class
+org\registration\model\User.class
+org\registration\model\Complaint.class
+org\registration\action\app.class
+org\registration\action\FormAction.class
+org\registration\action\UserService.class

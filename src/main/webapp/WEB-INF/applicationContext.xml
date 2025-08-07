@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Scan for @Transactional etc. -->
+    <context:component-scan base-package="org.registration" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!-- DataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/tanaashi?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC" />
+        <property name="username" value="root" />
+        <property name="password" value="Ujjwal@8210" />
+    </bean>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mappingResources">
+            <list>
+                <value>org/registration/model/User.hbm.xml</value>
+                <value>org/registration/model/Complaint.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- Services -->
+    <bean id="userService" class="org.registration.action.UserService">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="complaintService" class="org.registration.service.ComplaintService">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Actions -->
+    <bean id="formAction" class="org.registration.action.FormAction">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="loginAction" class="org.registration.action.LoginAction">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="complaintAction" class="org.registration.action.ComplaintAction">
+        <property name="complaintService" ref="complaintService"/>
+    </bean>
+
+</beans>

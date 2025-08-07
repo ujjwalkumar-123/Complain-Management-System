@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.registration.model">
+
+    <class name="Complaint" table="complaints">
+
+        <!-- Primary Key with auto-increment -->
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+
+        <!-- Title -->
+        <property name="title" type="string">
+            <column name="title" length="255" not-null="true" />
+        </property>
+
+        <!-- Description -->
+        <property name="description" type="string">
+            <column name="description" length="1000" not-null="true" />
+        </property>
+
+        <!-- Status (Pending, Completed, etc.) -->
+        <property name="status" type="string">
+            <column name="status" length="50" not-null="true" />
+        </property>
+
+        <!-- Complaint created date -->
+        <property name="createdDate" type="date">
+            <column name="created_date" />
+        </property>
+
+        <!-- User who created the complaint -->
+        <property name="userName" type="string">
+            <column name="user_name" length="100" not-null="true"/>
+        </property>
+
+        <!-- Image path of uploaded screenshot -->
+        <property name="imagePath" type="string">
+            <column name="image_path" length="500"/>
+        </property>
+
+        <!-- Reason for rejection (if any) -->
+        <property name="rejectionReason" type="string">
+            <column name="rejection_reason" length="1000"/>
+        </property>
+
+    </class>
+</hibernate-mapping>

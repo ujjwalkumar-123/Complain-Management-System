@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.registration.model">
+
+    <class name="User" table="users">
+        
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="increment"/>
+        </id>
+
+        <property name="firstName" column="first_name" type="string"/>
+        <property name="lastName" column="last_name" type="string"/>
+        <property name="username" column="username" type="string"/>
+        <property name="email" column="email" type="string"/>
+        <property name="password" column="password" type="string"/>
+        <property name="confirmPassword" column="confirm_password" type="string"/>
+        <property name="country" column="country" type="string"/>
+        <property name="city" column="city" type="string"/>
+        <property name="role" column="role" type="string"/>
+        <property name="gender" column="gender" type="string"/>
+
+    </class>
+</hibernate-mapping>

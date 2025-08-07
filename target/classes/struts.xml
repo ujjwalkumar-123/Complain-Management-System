@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <!-- ✅ Login -->
+        <action name="loginPage">
+            <result>/login.jsp</result>
+        </action>
+
+        <action name="login" class="org.registration.action.LoginAction" method="execute">
+            <result name="admin" type="redirectAction">adminComplaintList</result>
+            <result name="user" type="redirectAction">complaintList</result>
+            <result name="input">/login.jsp</result>
+            <result name="error">/login.jsp</result>
+        </action>
+
+        <!-- ✅ Logout -->
+        <action name="logout" class="org.registration.action.LogoutAction">
+            <result type="redirectAction">loginPage</result>
+        </action>
+
+        <!-- ✅ Registration -->
+        <action name="registerPage">
+            <result>/register.jsp</result>
+        </action>
+
+        <action name="register" class="org.registration.action.FormAction">
+            <result name="success">/login.jsp</result>
+            <result name="input">/register.jsp</result>
+            <result name="error">/register.jsp</result>
+        </action>
+
+        <!-- ✅ Complaint Form & User View -->
+        <action name="complaintForm" class="org.registration.action.ComplaintAction" method="form">
+            <result>/complaint-form.jsp</result>
+        </action>
+
+        <action name="saveComplaint" class="org.registration.action.ComplaintAction" method="save">
+            <result name="success" type="redirectAction">complaintList</result>
+            <result name="input">/complaint-form.jsp</result>
+            <result name="error">/complaint-form.jsp</result>
+        </action>
+
+        <action name="complaintList" class="org.registration.action.ComplaintAction" method="list">
+            <result>/complaints.jsp</result>
+        </action>
+
+        <action name="deleteComplaint" class="org.registration.action.ComplaintAction" method="delete">
+            <result name="success" type="redirectAction">complaintList</result>
+        </action>
+
+        <!-- ✅ Admin Complaint Management -->
+        <action name="adminComplaintList" class="org.registration.action.AdminAction" method="listComplaints">
+            <result name="success">/admin-complaints.jsp</result>
+        </action>
+
+        <!-- ✅ Accept/Reject Complaint -->
+        <action name="updateStatus" class="org.registration.action.AdminAction" method="updateStatus">
+            <result name="success" type="redirectAction">adminComplaintList</result>
+            <result name="error" type="redirectAction">adminComplaintList</result>
+        </action>
+
+
+
+        <!-- ✅ Manually Change Status -->
+        <action name="changeComplaintStatus" class="org.registration.action.AdminAction" method="changeComplaintStatus">
+            <result name="success" type="redirectAction">adminComplaintList</result>
+        </action>
+
+        <!-- ✅ View Single Complaint -->
+        <action name="viewComplaint" class="org.registration.action.AdminAction" method="showComplaintDetails">
+            <result>/admin-complaint-view.jsp</result>
+        </action>
+
+        <!-- ✅ Export to Excel -->
+        <action name="exportComplaintsExcel" class="org.registration.action.AdminAction" method="exportToExcel">
+            <result name="excel" type="stream">
+                <param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+                <param name="inputName">excelStream</param>
+                <param name="contentDisposition">attachment;filename="${excelFileName}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+
+    </package>
+</struts>
